@@ -1,0 +1,38 @@
+<!doctype html>
+<html ng-app="sampleApp">
+<head>
+ <meta charset="UTF-8">
+ <script src="angular/angular.js"></script>
+ <script type="text/javascript">
+ angular.module('sampleApp', []).
+  config(function ($httpProvider) {
+   $httpProvider.interceptors.push(function($q, $timeout) {//인터셉터 함수
+    return {
+     'request': function(config) {
+      return $timeout(function(){
+       return config;
+      }, 3000);
+     },
+     'response': function(response) {
+      return response || $q.when(response);
+     }
+   	//인터셉터 함수는 request, response, requestError, responseError를 속성으로 갖는 객체를 반환해야 한다.
+   	//해당 속성들은 함수를 값으로 가지게 되고 해당 속성은 promise객체나 전달받은 매개변수를 반환해야 한다.
+    };
+   });
+  }).
+  controller('mainCtrl',function($scope, $http) {
+   $scope.send = function () {
+    $http({method: 'GET', url: 'json/sample.json'}).
+    success(function (data) {
+     $scope.result = data; 
+    })
+   }
+  });
+ </script>
+</head>
+<body ng-controller="mainCtrl">
+ <button ng-click="send()">요청보내기</button>
+ <p>{{result}}</p>
+</body>
+</html>
