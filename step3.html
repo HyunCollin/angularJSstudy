@@ -15,6 +15,10 @@
      angular.forEach(resultArray, function(value, key){
       $scope.userList.push(value.data);
      });
+    })
+    .catch(function(){
+    	console.log("httpPromise error");
+//     	alert("error");
     });
  });
  </script>
