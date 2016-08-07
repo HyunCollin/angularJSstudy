@@ -1,2 +1,1 @@
-# shopmall
-angularJS project
+angularJS
